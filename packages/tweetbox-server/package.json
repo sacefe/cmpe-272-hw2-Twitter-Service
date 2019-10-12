@@ -5,7 +5,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start:dev": "cross-env nodemon"
+    "start:dev": "cross-env nodemon",
+    "clean": "rimraf dist",
+    "build": "yarn clean && mkdir dist && babel src -s -D -d dist",
+    "start:prod": "cross-env NODE_ENV=production node dist/main.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -29,6 +32,8 @@
     "@babel/core": "^7.6.2",
     "@babel/node": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
+    "eslint": "^6.5.1",
+    "jest": "^24.9.0",
     "nodemon": "^1.19.3",
     "rimraf": "^3.0.0"
   }

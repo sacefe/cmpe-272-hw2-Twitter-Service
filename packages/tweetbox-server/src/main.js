@@ -1,3 +1,6 @@
+/**
+ * @author Achalaesh Lanka <me@terasurfer.com>
+*/
 import {config} from 'dotenv';
 import {App} from './app';
 import logger from './util/logger';

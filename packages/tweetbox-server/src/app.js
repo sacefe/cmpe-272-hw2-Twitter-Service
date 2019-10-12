@@ -90,7 +90,7 @@ export class App extends EventEmitter {
                     logger.info('Tweetbox server started and is running on http://%s:%d', hostName, port);
                 });
             } catch(err) {
-                logger.error(e);
+                logger.error(err);
                 this.serverState = SERVER.STOPPED;
                 this.emit(SERVER.STOPPED);
                 process.exit(1);

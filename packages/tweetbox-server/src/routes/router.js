@@ -1,5 +1,8 @@
+
 import {Router} from 'express';
 import { getApiStatus } from '../controllers/api.controller';
+import passport from '../util/passport';
+// import { handleResponseFromTwitter } from '../controllers/twitter.controller';
 
 /**
  * @author Achalaesh Lanka <me@terasurfer.com>
@@ -19,16 +22,24 @@ router.route('')
  * @returns User/User[]
  * @methods GET, POST
  ****************************************************************************/
-router.route('/users')
-        .get()
-        .post();
+// router.route('/users')
+//         .get()
+//         .post();
 
-router.route('/users/${id}')
-        .get()
-        .put();
+// router.route('/users/${id}')
+//         .get()
+//         .put();
 
+/**
+ * @route /auth
+ * @returns authenticates users.
+ * @methods GET, POST
+ */
+router.route('/auth/twitter')
+        .get(passport.authenticate('twitter'));
 
-router.route('/twitter/authenicate')
-        .post();
+router.route('/auth/twitter/callback')
+// Replace this with client URL env variable later.
+        .get(passport.authenticate('twitter', { failureRedirect: 'http://localhost:8080/login-failed' }));
 
 export default router;

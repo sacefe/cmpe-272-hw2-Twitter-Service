@@ -1,3 +1,9 @@
+import {config} from 'dotenv';
+
+config({
+    path: `./environments/${process.env.NODE_ENV}.env`
+});
+
 export const SERVER = {
     RUNNING: "SERVER_RUNNING",
     STOPPED: "SERVER_STOPPED",
@@ -6,5 +12,5 @@ export const SERVER = {
 }
 
 export const SESSION = {
-    SECRET: "not-much-of-a-secret"
+    SECRET: process.env.SESSION_SECRET
 }
