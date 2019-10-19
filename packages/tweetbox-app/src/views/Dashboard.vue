@@ -2,6 +2,7 @@
     <b-container class="mt-4">
         <b-row>
             <b-col sm="12" lg="8">
+                <!-- Send direct message -->
                 <b-card class="shadow-sm border-0" title="Send Direct Message">
                     <b-form>
                         <b-form-group>
@@ -13,8 +14,20 @@
                         <b-btn @click="sendMessageTwitter" block variant="outline-primary">Send Message <fa icon="paper-plane" /></b-btn>
                     </b-form>
                 </b-card>
+                <!-- Create new tweet -->
+                <b-card class="shadow-sm mt-4 border-0" title="Tweet a status">
+                    <b-form>
+                        <b-form-group>
+                            <b-textarea v-model="tweetStatus" placeholder="Enter a tweet."></b-textarea>
+                        </b-form-group>
+                        <b-btn @click="createTweetWithStatus" block variant="outline-primary">Create Tweet <fa icon="paper-plane" /></b-btn>
+                    </b-form>
+                </b-card>
+                <!-- Delete tweet with id -->
+                <!-- Get tweet -->
             </b-col>
             <b-col>
+                <!-- User profile -->
                 <b-card 
                 class="shadow-sm border-0"
                 >
@@ -24,6 +37,8 @@
                     <h6>User name: {{user.userName}}</h6>
                 </div>
                 </b-card>
+                <!-- Get tweet -->
+
             </b-col>
         </b-row>
         
@@ -31,7 +46,13 @@
 </template>
 
 <script>
-import {getUser, sendMessage} from '@/services';
+import {
+    getUser,
+    sendMessage, 
+    createTweet,
+    // deleteTweet,
+    // getTweet
+    } from '@/services';
 import swal from 'sweetalert';
 export default {
     data: () => ({
@@ -41,6 +62,7 @@ export default {
             displayName: ''
         },
         message: '',
+        tweetStatus: '',
         recipientId: '',
         loading: false
     }),
@@ -73,6 +95,24 @@ export default {
                 console.log(err);
                 swal('Oh no!', 'Something went wrong. Try again.', 'error');
             }
+        },
+        async createTweetWithStatus() {
+            try {
+                if(this.tweetStatus !== '') {
+                    const response = await createTweet(this.tweetStatus);
+                    console.log(response);
+                    swal('Success!', 'tweet created succesfully.', 'success');
+                }
+            } catch(err) {
+                console.log(JSON.stringify(err));
+                swal('Smething went wrong', 'sorry', 'error');
+            }
+        },
+        async getTweetWithID() {
+
+        },
+        async deleteTweetWithID() {
+
         }
     }
 }

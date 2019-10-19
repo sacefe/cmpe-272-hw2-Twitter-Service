@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {getUser, sendMessage} from './user.services';
+import {getUser, sendMessage, createTweet, deleteTweet, getTweet} from './user.services';
 
 const ajax = axios.create({
     baseURL: 'http://localhost:3030/api',
@@ -9,4 +9,4 @@ const ajax = axios.create({
     }
 });
 
-export {ajax, getUser, sendMessage};
+export {ajax, getUser, sendMessage, createTweet, deleteTweet, getTweet};

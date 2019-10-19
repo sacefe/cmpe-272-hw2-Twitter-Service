@@ -10,3 +10,17 @@ export const sendMessage = (recipientId, message) => {
         message
     });
 }
+
+export const createTweet = (message) => {
+    return ajax.post('/twitter/create-tweet', {
+        message
+    });
+}
+
+export const deleteTweet = (id) => {
+    return ajax.delete(`/twitter/tweet/${id}`);
+}
+
+export const getTweet = (id) => {
+    return ajax.get(`/twitter/tweet/${id}`);
+}

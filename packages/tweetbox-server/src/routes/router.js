@@ -2,7 +2,7 @@
 import {Router} from 'express';
 import { getApiStatus } from '../controllers/api.controller';
 import passport from '../util/passport';
-import { handleTwitterRedirect, sendMessageToUser } from '../controllers/twitter.controller';
+import { handleTwitterRedirect, sendMessageToUser, deleteTweet, createTweet, getTweet } from '../controllers/twitter.controller';
 import {getUser} from '../controllers/user.controller';
 import { FRONTEND } from '../util/constants';
 import { checkAuth } from '../controllers/auth.controller';
@@ -51,5 +51,12 @@ router.route('/auth/twitter/callback')
  */
 router.route('/twitter/direct-message')
                 .post(checkAuth, sendMessageToUser);
+
+router.route('/twitter/create-tweet')
+                .post(checkAuth, createTweet);
+
+router.route('/twitter/tweet/:id')
+                .get(checkAuth, getTweet)
+                .delete(checkAuth, deleteTweet);
 
 export default router;
