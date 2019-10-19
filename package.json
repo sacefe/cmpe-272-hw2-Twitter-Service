@@ -1,0 +1,11 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": {
+    "packages": "packages/*"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "lerna": "^3.16.4"
+  }
+}
