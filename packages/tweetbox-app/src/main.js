@@ -1,8 +1,10 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import './registerServiceWorker'
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
+import './registerServiceWorker';
+import './plugins/bootstrap-vue';
+import './plugins/fontawesome';
 
 Vue.config.productionTip = false
 

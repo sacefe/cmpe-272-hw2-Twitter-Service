@@ -1,20 +1,20 @@
 import passport from 'passport';
-import {config} from 'dotenv';
 import passportTwitter from 'passport-twitter';
 import logger from './logger';
-
-config({
-    path: `./environments/${process.env.NODE_ENV}.env`
-});
+import User from '../models/user.model';
+import { TWITTER } from './constants';
 
 passport.use(new passportTwitter.Strategy({
-    consumerKey: process.env.TWITTER_CONSUMER_KEY,
-    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    consumerKey: TWITTER.CONSUMER_KEY,
+    consumerSecret: TWITTER.CONSUMER_SECRET,
     callbackURL: '/api/auth/twitter/callback',
+    includeEmail: true,
     proxy: true //check value for prod.
 }, function(token, tokenSecret, profile, done) {
-    logger.info(token, tokenSecret, profile);
-    done();
+    // logger.info(token, tokenSecret, profile);
+    User.upsertTwitterUser(token, tokenSecret, profile, function(err, user) {
+        return done(err, user);
+    });
 }));
 
 passport.serializeUser(function(user, cb) {

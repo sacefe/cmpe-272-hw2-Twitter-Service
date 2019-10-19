@@ -2,7 +2,10 @@
 import {Router} from 'express';
 import { getApiStatus } from '../controllers/api.controller';
 import passport from '../util/passport';
-// import { handleResponseFromTwitter } from '../controllers/twitter.controller';
+import { handleTwitterRedirect, sendMessageToUser } from '../controllers/twitter.controller';
+import {getUser} from '../controllers/user.controller';
+import { FRONTEND } from '../util/constants';
+import { checkAuth } from '../controllers/auth.controller';
 
 /**
  * @author Achalaesh Lanka <me@terasurfer.com>
@@ -18,17 +21,12 @@ router.route('')
         .get(getApiStatus);
 
 /*****************************************************************************
- * @route /api/users
- * @returns User/User[]
- * @methods GET, POST
+ * @route /api/user
+ * @returns User
+ * @methods GET
  ****************************************************************************/
-// router.route('/users')
-//         .get()
-//         .post();
-
-// router.route('/users/${id}')
-//         .get()
-//         .put();
+router.route('/user')
+        .get(checkAuth, getUser);
 
 /**
  * @route /auth
@@ -40,6 +38,18 @@ router.route('/auth/twitter')
 
 router.route('/auth/twitter/callback')
 // Replace this with client URL env variable later.
-        .get(passport.authenticate('twitter', { failureRedirect: 'http://localhost:8080/login-failed' }));
+        .get(passport.authenticate(
+                'twitter',
+                { failureRedirect: `${FRONTEND.URL}/login-failed` }
+                ),
+                checkAuth,
+                handleTwitterRedirect
+        );
+// ----------------------------------------------------------------------------
+/**
+ * Twitter req apis
+ */
+router.route('/twitter/direct-message')
+                .post(checkAuth, sendMessageToUser);
 
 export default router;
