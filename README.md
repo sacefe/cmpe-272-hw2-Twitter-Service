@@ -9,7 +9,7 @@
  
 ### Step to install and run the project
  - Clone the project locally
- - setup mongo database compass locally and create twitter_hw database
+ - setup mongo database compass locally and create **twitter_hw database**
  - Download and install redis and start the redis
  - Open the project folder in any editor and CD to **packages**
  ### For Frontend development
