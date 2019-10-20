@@ -25,6 +25,15 @@
                 </b-card>
                 <!-- Delete tweet with id -->
                 <!-- Get tweet -->
+                <b-card class="shadow-sm border-0" title="Get Tweet">
+                    <b-form>
+                        <b-form-group>
+                            <b-input v-model="getRecipientId" placeholder="Enter a recipient."></b-input>
+                        </b-form-group>
+                        <b-form-group :label="latestTweet" label-for="input-default"></b-form-group>
+                        <b-btn @click="getTweetWithID" block variant="outline-primary">Get Tweet <fa icon="arrow-down" /></b-btn>
+                    </b-form>
+                </b-card>
             </b-col>
             <b-col>
                 <!-- User profile -->
@@ -51,7 +60,7 @@ import {
     sendMessage, 
     createTweet,
     // deleteTweet,
-    // getTweet
+    getTweet,
     } from '@/services';
 import swal from 'sweetalert';
 export default {
@@ -64,7 +73,8 @@ export default {
         message: '',
         tweetStatus: '',
         recipientId: '',
-        loading: false
+        loading: false,
+        latestTweet: '(See tweet here)'
     }),
     mounted() {
         this.loadUser();
@@ -109,7 +119,19 @@ export default {
             }
         },
         async getTweetWithID() {
-
+            try {
+                if(this.getRecipientId !== '') {
+                    const response = await getTweet(this.getRecipientId);
+                    console.log(response);
+                    this.latestTweet = response.data.message;
+                    swal('Success!', 'message sent succesfully.', 'success');
+                } else {
+                    swal('Uh oh!', 'Looks like you forgot to fill the fields mate.', 'warning');
+                }
+            } catch(err) {
+                console.log(JSON.stringify(err));
+                swal('Oh no (get Tweet)!', 'Something went wrong. Try again.', 'error');
+            }
         },
         async deleteTweetWithID() {
 
