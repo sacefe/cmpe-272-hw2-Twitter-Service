@@ -17,9 +17,11 @@
  ```
  yarn install
  ```
- - `yarn install` should install all dependencies required for the frontend to run
+ `yarn install` should install all dependencies required for the frontend to run
+ 
+ -run the below command
  ```
- - run yarn serve
+ yarn serve
  ```
  ### For FBackend Development
  - CD to **tweetbox-server** folder and run
