@@ -19,7 +19,7 @@
  ```
  `yarn install` should install all dependencies required for the frontend to run
  
- -run the below command
+ - run the below command
  ```
  yarn serve
  ```
