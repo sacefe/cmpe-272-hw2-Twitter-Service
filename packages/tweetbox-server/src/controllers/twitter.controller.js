@@ -71,7 +71,7 @@ export const sendMessageToUser = async function(req, res, next) {
 export const getTweet = async (req, res, next) => {
     
 }
-
+// @Jyothi
 export const createTweet = async (req, res, next) => {
     if(req.session.passport && req.session.passport.user){
         try {
