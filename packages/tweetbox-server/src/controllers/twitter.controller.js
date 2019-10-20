@@ -69,7 +69,7 @@ export const sendMessageToUser = async function(req, res, next) {
  * 
  */
 export const getTweet = async (req, res, next) => {
-    
+
 }
 
 export const createTweet = async (req, res, next) => {
@@ -117,7 +117,41 @@ export const createTweet = async (req, res, next) => {
 
 // @sergio
 export const deleteTweet = async (req, res, next) => {
+    if (req.session.passport && req.session.passport.user){
+        try{
+            logger.info('user is logged in.')
+            const deleteId= req.param('id');
+            const twp = await userModel.findOne(
+                {_id: req.session.passport.user._id}
+            ).select('twitterProvider');
+            
+            const T = new Twit ({
+                consumer_key: TWITTER.CONSUMER_KEY,
+                consumer_secret: TWITTER.CONSUMER_SECRET,
+                access_token: twp.twitterProvider.token,
+                access_token_secret: twp.twitterProvider.tokenSecret,  
+            });
+            T.post('statuses/destroy',{id:deleteId}, (err, result, response) => {
+                    if (err){
+                    logger.error(JSON.stringify(err));
+                    res.status(500).json({
+                        error: 'Something get wrong for id: ' + deleteId + ' with error: ' + err
+                    });        
+                }else {
+                    logger.info(JSON.stringify(result));
+                    res.status(201).json({
+                       message: 'Delete Success. '  + deleteId
+                    });
+                    next();
+                }
+           })
 
+        } catch(err) {
+            logger.error(err);
+            res.status(500).json({
+                error: err
+            });
+            next(err);
+        }
+    }
 }
-
-

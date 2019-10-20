@@ -24,6 +24,14 @@
                     </b-form>
                 </b-card>
                 <!-- Delete tweet with id -->
+                <b-card class="shadow-sm mt-4 border-0" title="Tweet Delete">
+                    <b-form>
+                        <b-form-group>
+                               <b-input v-model="deleteId" placeholder="Enter tweet ID."></b-input> 
+                        </b-form-group>
+                        <b-btn @click="deleteTweetWithId" block variant="outline-primary">Delete Tweet <fa icon="trash-alt" /></b-btn>
+                    </b-form>
+                </b-card>
                 <!-- Get tweet -->
             </b-col>
             <b-col>
@@ -50,7 +58,7 @@ import {
     getUser,
     sendMessage, 
     createTweet,
-    // deleteTweet,
+    deleteTweet,
     // getTweet
     } from '@/services';
 import swal from 'sweetalert';
@@ -64,6 +72,7 @@ export default {
         message: '',
         tweetStatus: '',
         recipientId: '',
+        deleteId: '',
         loading: false
     }),
     mounted() {
@@ -111,8 +120,20 @@ export default {
         async getTweetWithID() {
 
         },
-        async deleteTweetWithID() {
-
+        async deleteTweetWithId() {
+            try{
+                console.log("myID is: " + this.deleteId);
+                if (this.deleteId !== ''){
+                    const response = await deleteTweet(this.deleteId);
+                    console.log(response);
+                    swal('Deleted!', 'tweet delete sucessfully.', 'delete');
+                }else{
+                      swal('Uh oh!', 'Looks like you forgot to fill the fields mate.', 'warning');
+                }
+            } catch(err) {
+                console.log(JSON.stringify(err));
+                swal('something get wrong deleting a tweet', 'error');
+            }
         }
     }
 }
