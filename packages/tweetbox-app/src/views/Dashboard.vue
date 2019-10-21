@@ -126,7 +126,7 @@ export default {
                 if (this.deleteId !== ''){
                     const response = await deleteTweet(this.deleteId);
                     console.log(response);
-                    swal('Deleted!', 'tweet delete sucessfully.', 'delete');
+                    swal('Deleted!', 'tweet deleted sucessfully.', 'success');
                 }else{
                       swal('Uh oh!', 'Looks like you forgot to fill the fields mate.', 'warning');
                 }
