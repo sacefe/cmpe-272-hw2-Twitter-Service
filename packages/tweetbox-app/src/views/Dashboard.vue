@@ -32,16 +32,7 @@
                         <b-btn @click="deleteTweetWithId" block variant="outline-primary">Delete Tweet <fa icon="trash-alt" /></b-btn>
                     </b-form>
                 </b-card>
-                <!-- Get tweet -->
-                <b-card class="shadow-sm border-0" title="Get Tweet">
-                    <b-form>
-                        <b-form-group>
-                            <b-input v-model="getRecipientId" placeholder="Enter a recipient."></b-input>
-                        </b-form-group>
-                        <b-form-group :label="latestTweet" label-for="input-default"></b-form-group>
-                        <b-btn @click="getTweetWithID" block variant="outline-primary">Get Tweet <fa icon="arrow-down" /></b-btn>
-                    </b-form>
-                </b-card>
+                
             </b-col>
             <b-col>
                 <!-- User profile -->
@@ -50,12 +41,27 @@
                 >
                 <div class="text-center">
                     <b-img :src="user.imageURL" rounded="circle" width="50"></b-img>
-                    <h6>Display Name: {{user.displayName}}</h6>
+                    <h6 class="mt-2">Display Name: {{user.displayName}}</h6>
                     <h6>User name: {{user.userName}}</h6>
                 </div>
                 </b-card>
                 <!-- Get tweet -->
-
+                <b-card class="shadow-sm mt-4 border-0" title="Get Tweet">
+                    <b-form>
+                        <b-form-group>
+                            <b-input v-model="tweetId" placeholder="Enter a tweet ID."></b-input>
+                        </b-form-group>
+                        <b-btn @click="getTweetWithID" block variant="outline-primary">Get Tweet <fa icon="arrow-down" /></b-btn>
+                    </b-form>
+                </b-card>
+                <b-card v-if="displayTweet" class="shadow-sm mt-4 border-0" header-border-variant="light" header-bg-variant="white">
+                    <template v-slot:header>
+                        <h5 class="float-left mb-0">{{latestTweet.user.name}}</h5>
+                        <b-img class="float-right" :src="latestTweet.user.profile_image_url_https" rounded="circle" width="25"></b-img>
+                    </template>
+                    <div>{{latestTweet.text}}</div>
+                    <div class="float-right mb-0 text-muted small"><p class="small mb-0">{{latestTweet.created_at}}</p></div>
+                </b-card>
             </b-col>
         </b-row>
         
@@ -83,8 +89,9 @@ export default {
         recipientId: '',
         deleteId: '',
         loading: false,
-        getRecipientId: '',
-        latestTweet: '(See tweet here)'
+        tweetId: '',
+        latestTweet: {},
+        displayTweet: false
     }),
     mounted() {
         this.loadUser();
@@ -130,11 +137,12 @@ export default {
         },
         async getTweetWithID() {
             try {
-                if(this.getRecipientId !== '') {
-                    const response = await getTweet(this.getRecipientId);
+                if(this.tweetId !== '') {
+                    const response = await getTweet(this.tweetId);
                     console.log(response);
-                    this.latestTweet = response.data.message;
-                    swal('Success!', 'message sent succesfully.', 'success');
+                    this.latestTweet = response.data.result;
+                    this.displayTweet = true;
+                    swal('Success!', 'Got the tweet successfully.', 'success');
                 } else {
                     swal('Uh oh!', 'Looks like you forgot to fill the fields mate.', 'warning');
                 }

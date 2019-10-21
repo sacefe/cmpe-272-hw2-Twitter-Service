@@ -28,7 +28,7 @@ export class App extends EventEmitter {
         super();
         this.serverState = SERVER.STOPPED;
         this.httpServer = express();
-        logger.info('Configuring default middleware.');
+        // logger.info('Configuring default middleware.');
         this.httpServer.use(bodyParser.urlencoded({extended: true}));
         this.httpServer.use(bodyParser.json());
         this.httpServer.use(helmet());
@@ -38,7 +38,7 @@ export class App extends EventEmitter {
         };
         this.httpServer.use(cors(corsOptions));
         this.httpServer.use(compress());
-        this.httpServer.use(morgan('combined'));
+        // this.httpServer.use(morgan('combined'));
         // for session.
         // This is dev config.
         this.httpServer.set('trust proxy', 1);
@@ -121,7 +121,7 @@ export class App extends EventEmitter {
             try {
                 this.serverState = SERVER.RUNNING;
                 this.emit(SERVER.RUNNING);
-                this.httpServer.listen(port, hostName, () => {
+                return this.httpServer.listen(port, hostName, () => {
                     logger.info('Tweetbox server started and is running on http://%s:%d', hostName, port);
                 });
             } catch(err) {
@@ -131,6 +131,10 @@ export class App extends EventEmitter {
                 process.exit(1);
             }
         }
+    }
+
+    getHTTPServer() {
+        return this.httpServer;
     }
 
 }

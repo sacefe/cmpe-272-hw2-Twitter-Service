@@ -58,6 +58,12 @@ export const sendMessageToUser = async function(req, res, next) {
             });
             next(err);
         }
+    } else {
+        res.cookie('LOGGED-IN', 'false');
+        res.status(401).json({
+            error: 'You\'re not logged in.',
+            code: ERRORS.NOT_LOGGEDIN
+        });
     }
 }
 
@@ -93,7 +99,7 @@ export const getTweet = async (req, res, next) => {
                 } else {
                     logger.info(JSON.stringify(result));
                     res.status(201).json({
-                        message: result.text
+                        result: result
                     })
                     next();
                 }
@@ -105,6 +111,12 @@ export const getTweet = async (req, res, next) => {
             });
             next(err);
         }
+    } else {
+        res.cookie('LOGGED-IN', 'false');
+        res.status(401).json({
+            error: 'You\'re not logged in.',
+            code: ERRORS.NOT_LOGGEDIN
+        });
     }
 }
 // @Jyothi
@@ -147,6 +159,12 @@ export const createTweet = async (req, res, next) => {
         });
         next(err);
     }
+    } else {
+        res.cookie('LOGGED-IN', 'false');
+        res.status(401).json({
+            error: 'You\'re not logged in.',
+            code: ERRORS.NOT_LOGGEDIN
+        });
     }
 
 }
@@ -189,5 +207,11 @@ export const deleteTweet = async (req, res, next) => {
             });
             next(err);
         }
+    } else {
+        res.cookie('LOGGED-IN', 'false');
+        res.status(401).json({
+            error: 'You\'re not logged in.',
+            code: ERRORS.NOT_LOGGEDIN
+        });
     }
 }
