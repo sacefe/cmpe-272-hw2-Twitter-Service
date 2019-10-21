@@ -1,6 +1,7 @@
 /**
  * @author Achalaesh Lanka <me@terasurfer.com>
 */
+import 'regenerator-runtime';
 import {config} from 'dotenv';
 import {App} from './app';
 import logger from './util/logger';
